@@ -1,0 +1,17 @@
+CREATE TABLE user
+(
+id int primary key,
+name varchar(255),
+password varchar(255),
+salt varchar(255),
+head_url varchar(255),
+rol VARCHAR(255)
+);
+CREATE TABLE login_ticket
+(
+id int primary key,
+user_id int,
+expired date,
+status int,
+ticket varchar(255)
+);
