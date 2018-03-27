@@ -2,10 +2,8 @@ package com.tls.blog.dao;
 
 
 import com.tls.blog.model.User;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
 
 @Mapper
 public interface UserDao {
@@ -16,11 +14,11 @@ public interface UserDao {
     @Insert({"insert into",TABLE_NAME,"(",INSERT_FIELDS,") values (#{name},#{password},#{salt},#{headUrl},#{role})"})
     void insertUser(User user);
 
-    @Select({"select", SELECT_FIELDS, "FROM", TABLE_NAME, "where id = {#id}"})
+    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where id = #{id}"})
     User selectById(int id);
 
-    @Select({"select", SELECT_FIELDS, "FROM", TABLE_NAME, "where name = {#name}"})
-    User selectByName(String name);
+    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where name = #{name}"})
+    User selectByName(@Param("name") String name);
 
     @Delete({"delete from",TABLE_NAME,"where id=#{id}"})
     void deleteById(int id);

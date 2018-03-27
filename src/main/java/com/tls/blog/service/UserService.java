@@ -7,12 +7,14 @@ import com.tls.blog.model.User;
 import com.tls.blog.util.BlogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 
 @Service
+@EnableAutoConfiguration
 public class UserService {
 
     @Autowired
@@ -21,10 +23,10 @@ public class UserService {
     @Autowired
     LoginTicketDao loginTicketDao;
 
-    public Map<String, String> register(String userName, String password) {
+    public Map<String, String> register(String username, String password) {
         Map<String, String> map = new HashMap<>();
         Random random = new Random();
-        if (StringUtils.isBlank(userName)) {
+        if (StringUtils.isBlank(username)) {
             map.put("msg", "username cannot be null");
             return map;
         }
@@ -32,18 +34,19 @@ public class UserService {
             map.put("msg", "password cannot be null");
             return map;
         }
-        User u = userDao.selectByName(userName);
+        User u = userDao.selectByName(username);
         if (u != null) {
             map.put("msg", "user already exist");
             return map;
         }
         User user = new User();
-        user.setName(userName);
+        user.setName(username);
         user.setSalt(UUID.randomUUID().toString().substring(0,5));
         user.setHeadUrl(String.format("https://images.nowcoder.com/head/%dm.png",random.nextInt(1000)));
         user.setPassword(BlogUtil.MD5(password+user.getSalt()));
         user.setRol("user");
         userDao.insertUser(user);
+        user = userDao.selectByName(user.getName());
         String ticket = addLoginTicket(user.getId());
         map.put("ticket",ticket);
         return map;
@@ -72,7 +75,8 @@ public class UserService {
             return map;
         }
         String ticket = addLoginTicket(u.getId());
-        map.put("ticket",ticket);
+    //    map.put("ticket",ticket);
+        map.put("msg", "success");
         return map;
 
     }

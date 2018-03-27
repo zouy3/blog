@@ -1,5 +1,6 @@
 package com.tls.blog.service;
 
+import com.tls.blog.dao.UserDao;
 import javafx.application.Application;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,16 +26,19 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
-
     @Test
     public void register() {
         Map<String, String> map = new HashMap<>();
-        userService.register("root", "123456");
-        Assert.assertEquals(map.get("msg"), "password cannot be null");
+        map = userService.register("root", null);
+        Assert.assertEquals("password cannot be null", map.get("msg"));
     }
 
     @Test
     public void login() {
+        Map<String, String> map = new HashMap<>();
+        map = userService.login("root", "123456");
+        Assert.assertEquals("success", map.get("msg"));
+
     }
 
     @Test

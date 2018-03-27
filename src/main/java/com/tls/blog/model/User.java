@@ -6,7 +6,7 @@ public class User {
     private String password;
     private String salt;
     private String headUrl;
-    private String rol;
+    private String role;
 
     public void setPassword(String password) {
         this.password = password;
@@ -41,11 +41,11 @@ public class User {
     }
 
     public void setRol(String rol) {
-        this.rol = rol;
+        this.role = rol;
     }
 
     public String getRol() {
-        return rol;
+        return role;
     }
 
     public void setSalt(String salt) {
